@@ -372,7 +372,7 @@ const Chatbot = () => {
         <div className="chatbot-header">
         <div className="chatbot-header-info">
           <div className="chatbot-avatar">
-            <span>🤖</span>
+            <span className="avatar-icon">AI</span>
           </div>
           <div className="chatbot-header-text">
             <h3>AI Assistant</h3>
@@ -388,14 +388,16 @@ const Chatbot = () => {
             title="New Chat"
             onClick={handleNewChat}
           >
-            💬
+            <span className="action-icon icon-new"></span>
+            <span className="action-text">New</span>
           </button>
           <button 
             className="chatbot-action-btn" 
             title="Clear chat"
             onClick={handleClearChat}
           >
-            🗑️
+            <span className="action-icon icon-clear"></span>
+            <span className="action-text">Clear</span>
           </button>
         </div>
       </div>
@@ -408,19 +410,24 @@ const Chatbot = () => {
           >
             <div className="message-content">
               {message.sender === 'bot' && (
-                <div className="message-avatar">🤖</div>
+                <div className="message-avatar">
+                  <span className="avatar-initial">AI</span>
+                </div>
               )}
               <div className="message-bubble">
                 <p style={{ whiteSpace: 'pre-wrap' }}>{message.text}</p>
                 {message.ticket && (
                   <div className="ticket-created-badge">
-                    🎫 Ticket #{message.ticket.ticketNumber} created
+                    <span className="badge-icon"></span>
+                    Ticket #{message.ticket.ticketNumber} created
                   </div>
                 )}
                 <span className="message-time">{formatTime(message.timestamp)}</span>
               </div>
               {message.sender === 'user' && (
-                <div className="message-avatar user-avatar">👤</div>
+                <div className="message-avatar user-avatar">
+                  <span className="avatar-initial">U</span>
+                </div>
               )}
             </div>
           </div>
@@ -429,7 +436,9 @@ const Chatbot = () => {
         {isTyping && (
           <div className="message bot-message">
             <div className="message-content">
-              <div className="message-avatar">🤖</div>
+              <div className="message-avatar">
+                <span className="avatar-initial">AI</span>
+              </div>
               <div className="message-bubble typing-indicator">
                 <div className="typing-dots">
                   <span></span>
@@ -474,8 +483,10 @@ const Chatbot = () => {
             type="submit"
             className="chatbot-send-button"
             disabled={!inputText.trim() || isTyping}
+            title="Send message"
           >
-            <span>➤</span>
+            <span className="send-icon"></span>
+            <span className="send-text">Send</span>
           </button>
         </div>
         <p className="chatbot-hint">

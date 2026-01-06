@@ -48,11 +48,13 @@ const TicketCard = ({ ticket, onClick }) => {
         
         <div className="ticket-meta">
           <span className="ticket-category">
-            <span className="meta-icon">📁</span>
+            <span className="meta-icon icon-category"></span>
+            <span className="meta-label">Category:</span>
             {getDisplayCategory(ticket)}
           </span>
           <span className="ticket-date">
-            <span className="meta-icon">📅</span>
+            <span className="meta-icon icon-date"></span>
+            <span className="meta-label">Date:</span>
             {formatDate(ticket.createdAt)}
           </span>
         </div>
@@ -61,11 +63,13 @@ const TicketCard = ({ ticket, onClick }) => {
       <div className="ticket-card-footer">
         {ticket.assignedTo && (
           <div className="ticket-assigned">
-            <span className="meta-icon">👤</span>
-            Assigned to {ticket.assignedTo.firstName || ticket.assignedTo.username}
+            <span className="meta-icon icon-user"></span>
+            <span>Assigned to {ticket.assignedTo.firstName || ticket.assignedTo.username}</span>
           </div>
         )}
-        <div className="ticket-arrow">→</div>
+        <div className="ticket-arrow">
+          <span className="arrow-icon"></span>
+        </div>
       </div>
     </div>
   );

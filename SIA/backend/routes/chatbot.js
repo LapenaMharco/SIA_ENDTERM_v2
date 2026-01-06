@@ -15,13 +15,13 @@ try {
   if (fs.existsSync(faqPath)) {
     const faqFile = fs.readFileSync(faqPath, 'utf8');
     faqData = JSON.parse(faqFile);
-    console.log(`✅ FAQ data loaded successfully: ${faqData.faqs?.length || 0} FAQs`);
+    console.log(`FAQ data loaded successfully: ${faqData.faqs?.length || 0} FAQs`);
   } else {
-    console.warn('⚠️ FAQ file not found at:', faqPath);
+    console.warn('FAQ file not found at:', faqPath);
     faqData = { faqs: [] };
   }
 } catch (error) {
-  console.error('❌ Error loading FAQ data:', error.message);
+  console.error('Error loading FAQ data:', error.message);
   faqData = { faqs: [] };
 }
 
@@ -32,13 +32,13 @@ try {
   if (fs.existsSync(deptPath)) {
     const deptFile = fs.readFileSync(deptPath, 'utf8');
     departmentData = JSON.parse(deptFile);
-    console.log(`✅ Department data loaded successfully: ${departmentData.departments?.length || 0} departments`);
+    console.log(`Department data loaded successfully: ${departmentData.departments?.length || 0} departments`);
   } else {
-    console.warn('⚠️ Department file not found at:', deptPath);
+    console.warn('Department file not found at:', deptPath);
     departmentData = { departments: [] };
   }
 } catch (error) {
-  console.error('❌ Error loading department data:', error.message);
+  console.error('Error loading department data:', error.message);
   departmentData = { departments: [] };
 }
 
@@ -57,20 +57,20 @@ function reloadOfficeData() {
       const parsed = JSON.parse(officeFile);
       if (Array.isArray(parsed)) {
         officeData = parsed;
-        console.log(`✅ Office locations data reloaded: ${officeData.length} offices`);
+        console.log(`Office locations data reloaded: ${officeData.length} offices`);
         return true;
       } else {
-        console.warn('⚠️ Office locations data is not an array');
+        console.warn('Office locations data is not an array');
         officeData = [];
         return false;
       }
     } else {
-      console.warn('⚠️ Office locations file not found at:', officePath);
+      console.warn('Office locations file not found at:', officePath);
       officeData = [];
       return false;
     }
   } catch (error) {
-    console.error('❌ Error loading office locations data:', error.message);
+    console.error('Error loading office locations data:', error.message);
     officeData = [];
     return false;
   }
@@ -306,18 +306,18 @@ function formatOfficeLocation(office) {
     return null;
   }
   
-  let response = `📍 **${office.office_name || 'Office'}**\n\n`;
+  let response = `**${office.office_name || 'Office'}**\n\n`;
   
   if (office.building_name) {
-    response += `🏢 **Building:** ${office.building_name}\n`;
+    response += `**Building:** ${office.building_name}\n`;
   }
   
   if (office.floor_room) {
-    response += `🚪 **Location:** ${office.floor_room}\n`;
+    response += `**Location:** ${office.floor_room}\n`;
   }
   
   if (office.description) {
-    response += `\n📝 **Description:** ${office.description}\n`;
+    response += `\n**Description:** ${office.description}\n`;
   }
   
   response += `\nIs there anything else I can help you with?`;
@@ -364,15 +364,15 @@ function findDepartmentByService(message) {
  */
 function formatDepartmentInfo(department) {
   let response = `You can find that at the **${department.name}**.\n\n`;
-  response += `📍 **Location:** ${department.location}\n`;
-  response += `🕐 **Hours:** ${department.hours}\n`;
+  response += `**Location:** ${department.location}\n`;
+  response += `**Hours:** ${department.hours}\n`;
   
   if (department.contact) {
-    response += `📧 **Email:** ${department.contact}\n`;
+    response += `**Email:** ${department.contact}\n`;
   }
   
   if (department.phone) {
-    response += `📞 **Phone:** ${department.phone}\n`;
+    response += `**Phone:** ${department.phone}\n`;
   }
   
   response += `\nWould you like me to create a ticket for this inquiry, or do you need more information?`;
@@ -645,26 +645,6 @@ function formatTicketStatus(tickets, isSpecificTicket = false) {
   
   if (isSpecificTicket && tickets.length === 1) {
     const ticket = tickets[0];
-    const statusEmoji = {
-      'Pending': '⏳',
-      'In Review': '👀',
-      'Approved': '✅',
-      'Rejected': '❌',
-      'Completed': '✔️',
-      'Cancelled': '🚫',
-      'On Hold': '⏸️'
-    };
-    
-    const priorityEmoji = {
-      'Low': '🟢',
-      'Normal': '🟡',
-      'High': '🟠',
-      'Urgent': '🔴'
-    };
-    
-    const emoji = statusEmoji[ticket.status] || '📋';
-    const priorityIcon = priorityEmoji[ticket.priority] || '🟡';
-    
     const createdDate = new Date(ticket.createdAt).toLocaleDateString('en-US', {
       month: 'short',
       day: 'numeric',
@@ -672,23 +652,23 @@ function formatTicketStatus(tickets, isSpecificTicket = false) {
     });
     
     let response = `Here's the status of your ticket:\n\n`;
-    response += `${emoji} **Ticket #${ticket.ticketNumber}**\n`;
-    response += `📝 Title: ${ticket.title}\n`;
-    response += `📊 Status: ${ticket.status}\n`;
-    response += `${priorityIcon} Priority: ${ticket.priority}\n`;
-    response += `📁 Category: ${ticket.category}\n`;
-    response += `📅 Created: ${createdDate}\n`;
+    response += `**Ticket #${ticket.ticketNumber}**\n`;
+    response += `Title: ${ticket.title}\n`;
+    response += `Status: ${ticket.status}\n`;
+    response += `Priority: ${ticket.priority}\n`;
+    response += `Category: ${ticket.category}\n`;
+    response += `Created: ${createdDate}\n`;
     
     if (ticket.assignedTo) {
-      response += `👤 Assigned to: ${ticket.assignedTo.firstName || ticket.assignedTo.username}\n`;
+      response += `Assigned to: ${ticket.assignedTo.firstName || ticket.assignedTo.username}\n`;
     }
     
     if (ticket.status === 'Rejected' && ticket.resolution?.rejectionReason) {
-      response += `\n❌ Rejection Reason: ${ticket.resolution.rejectionReason}\n`;
+      response += `\nRejection Reason: ${ticket.resolution.rejectionReason}\n`;
     }
     
     if (ticket.status === 'Completed' && ticket.resolution?.resolutionNotes) {
-      response += `\n✅ Resolution: ${ticket.resolution.resolutionNotes}\n`;
+      response += `\nResolution: ${ticket.resolution.resolutionNotes}\n`;
     }
     
     response += `\nYou can view full details in the Tickets section.`;
@@ -700,23 +680,12 @@ function formatTicketStatus(tickets, isSpecificTicket = false) {
   let response = `I found ${tickets.length} ticket${tickets.length > 1 ? 's' : ''} in your account:\n\n`;
   
   tickets.forEach((ticket, index) => {
-    const statusEmoji = {
-      'Pending': '⏳',
-      'In Review': '👀',
-      'Approved': '✅',
-      'Rejected': '❌',
-      'Completed': '✔️',
-      'Cancelled': '🚫',
-      'On Hold': '⏸️'
-    };
-    
-    const emoji = statusEmoji[ticket.status] || '📋';
     const createdDate = new Date(ticket.createdAt).toLocaleDateString('en-US', {
       month: 'short',
       day: 'numeric'
     });
     
-    response += `${index + 1}. ${emoji} **#${ticket.ticketNumber}** - ${ticket.title}\n`;
+    response += `${index + 1}. **#${ticket.ticketNumber}** - ${ticket.title}\n`;
     response += `   Status: ${ticket.status} | Priority: ${ticket.priority} | ${createdDate}\n\n`;
   });
   

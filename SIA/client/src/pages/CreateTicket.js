@@ -362,7 +362,7 @@ const CreateTicket = () => {
         <form onSubmit={handleSubmit} className="ticket-form">
           {error && (
             <div className="error-message-card">
-              <span className="error-icon">⚠️</span>
+              <span className="error-icon"></span>
               {error}
             </div>
           )}

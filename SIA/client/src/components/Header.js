@@ -78,7 +78,7 @@ const Header = () => {
               className={`nav-tab ${activeTab === 'chatbot' ? 'active' : ''}`}
               onClick={() => handleTabClick('chatbot')}
             >
-              <span className="nav-icon">💬</span>
+              <span className="nav-icon icon-chat"></span>
               <span className="nav-text">Chatbot</span>
             </button>
           )}
@@ -87,7 +87,7 @@ const Header = () => {
               className={`nav-tab ${activeTab === 'tickets' ? 'active' : ''}`}
               onClick={() => handleTabClick('tickets')}
             >
-              <span className="nav-icon">🎫</span>
+              <span className="nav-icon icon-ticket"></span>
               <span className="nav-text">Tickets</span>
             </button>
           )}
@@ -96,7 +96,7 @@ const Header = () => {
               className={`nav-tab ${activeTab === 'admin' ? 'active' : ''}`}
               onClick={() => handleTabClick('admin')}
             >
-              <span className="nav-icon">⚙️</span>
+              <span className="nav-icon icon-admin"></span>
               <span className="nav-text">Admin</span>
             </button>
           )}
@@ -104,7 +104,7 @@ const Header = () => {
             className={`nav-tab ${activeTab === 'profile' ? 'active' : ''}`}
             onClick={() => handleTabClick('profile')}
           >
-            <span className="nav-icon">👤</span>
+            <span className="nav-icon icon-profile"></span>
             <span className="nav-text">Profile</span>
           </button>
           {isAdmin && (
@@ -112,7 +112,7 @@ const Header = () => {
               className={`nav-tab ${activeTab === 'analytics' ? 'active' : ''}`}
               onClick={() => handleTabClick('analytics')}
             >
-              <span className="nav-icon">📊</span>
+              <span className="nav-icon icon-analytics"></span>
               <span className="nav-text">Analytics</span>
             </button>
           )}

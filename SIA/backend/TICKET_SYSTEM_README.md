@@ -4,18 +4,18 @@ A comprehensive ticketing system designed for university purposes, supporting re
 
 ## Features
 
-✅ **Complete CRUD Operations** - Create, Read, Update, Delete tickets  
-✅ **University-Specific Categories** - OTR Requests, Subject Enrollment, Grade Inquiries, etc.  
-✅ **Status Workflow** - Pending → In Review → Approved/Rejected → Completed  
-✅ **Priority Levels** - Low, Normal, High, Urgent  
-✅ **Ticket Comments** - Communication between students and staff  
-✅ **Internal Notes** - Staff-only comments not visible to students  
-✅ **Role-Based Access Control** - Students, Staff, and Admin roles  
-✅ **Ticket Assignment** - Assign tickets to specific staff members  
-✅ **Comprehensive Validation** - Input validation and error handling  
-✅ **Auto-Generated Ticket Numbers** - Unique ticket IDs for tracking  
-✅ **Statistics** - Ticket counts by status and category  
-✅ **Pagination & Filtering** - Efficient data retrieval  
+**Complete CRUD Operations** - Create, Read, Update, Delete tickets  
+**University-Specific Categories** - OTR Requests, Subject Enrollment, Grade Inquiries, etc.  
+**Status Workflow** - Pending → In Review → Approved/Rejected → Completed  
+**Priority Levels** - Low, Normal, High, Urgent  
+**Ticket Comments** - Communication between students and staff  
+**Internal Notes** - Staff-only comments not visible to students  
+**Role-Based Access Control** - Students, Staff, and Admin roles  
+**Ticket Assignment** - Assign tickets to specific staff members  
+**Comprehensive Validation** - Input validation and error handling  
+**Auto-Generated Ticket Numbers** - Unique ticket IDs for tracking  
+**Statistics** - Ticket counts by status and category  
+**Pagination & Filtering** - Efficient data retrieval  
 
 ## Models Created
 
@@ -211,12 +211,12 @@ After implementing the backend ticket system, you can:
 
 ## Security Features
 
-✅ JWT-based authentication  
-✅ Role-based access control  
-✅ Input validation and sanitization  
-✅ Error handling with proper HTTP status codes  
-✅ Protection against unauthorized access  
-✅ Internal notes only visible to staff  
+JWT-based authentication  
+Role-based access control  
+Input validation and sanitization  
+Error handling with proper HTTP status codes  
+Protection against unauthorized access  
+Internal notes only visible to staff  
 
 ## Error Handling
 

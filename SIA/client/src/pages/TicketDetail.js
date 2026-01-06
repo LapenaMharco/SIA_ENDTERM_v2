@@ -285,7 +285,7 @@ const TicketDetail = () => {
       <div className="ticket-detail-container">
         <Header />
         <div className="error-state">
-          <div className="error-icon-large">⚠️</div>
+          <div className="error-icon-large"></div>
           <h2>Ticket Not Found</h2>
           <p>{error || 'The ticket you are looking for does not exist.'}</p>
           <button className="btn-primary" onClick={() => navigate('/tickets')}>

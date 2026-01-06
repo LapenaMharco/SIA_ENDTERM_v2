@@ -133,7 +133,7 @@ const AdminAnalytics = () => {
       <div className="admin-analytics-container">
         <Header />
         <div className="error-state">
-          <div className="error-icon-large">⚠️</div>
+          <div className="error-icon-large"></div>
           <h2>Error Loading Analytics</h2>
           <p>{error}</p>
           <button className="btn-primary" onClick={fetchStatistics}>
@@ -149,7 +149,7 @@ const AdminAnalytics = () => {
       <div className="admin-analytics-container">
         <Header />
         <div className="error-state">
-          <div className="error-icon-large">📊</div>
+          <div className="error-icon-large"></div>
           <h2>No Data Available</h2>
           <p>There is no ticket data to display yet.</p>
         </div>
@@ -170,31 +170,27 @@ const AdminAnalytics = () => {
         {/* Summary Cards */}
         <div className="analytics-summary-grid">
           <div className="summary-card">
-            <div className="summary-icon">📊</div>
             <div className="summary-info">
-              <div className="summary-value">{statistics.total}</div>
               <div className="summary-label">Total Tickets</div>
+              <div className="summary-value">{statistics.total}</div>
             </div>
           </div>
           <div className="summary-card pending">
-            <div className="summary-icon">⏳</div>
             <div className="summary-info">
-              <div className="summary-value">{statistics.pending}</div>
               <div className="summary-label">Pending</div>
+              <div className="summary-value">{statistics.pending}</div>
             </div>
           </div>
           <div className="summary-card completed">
-            <div className="summary-icon">✅</div>
             <div className="summary-info">
-              <div className="summary-value">{statistics.completed}</div>
               <div className="summary-label">Completed</div>
+              <div className="summary-value">{statistics.completed}</div>
             </div>
           </div>
           <div className="summary-card in-review">
-            <div className="summary-icon">👀</div>
             <div className="summary-info">
-              <div className="summary-value">{statistics.inReview}</div>
               <div className="summary-label">In Review</div>
+              <div className="summary-value">{statistics.inReview}</div>
             </div>
           </div>
         </div>

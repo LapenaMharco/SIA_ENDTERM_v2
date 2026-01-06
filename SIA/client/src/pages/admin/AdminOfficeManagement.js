@@ -188,7 +188,7 @@ const AdminOfficeManagement = () => {
 
         {error && (
           <div className="error-message-card" style={{ marginBottom: '20px' }}>
-            <span className="error-icon">⚠️</span>
+            <span className="error-icon"></span>
             <div style={{ flex: 1 }}>
               <div>{error}</div>
               <button
@@ -212,7 +212,7 @@ const AdminOfficeManagement = () => {
 
         {success && (
           <div className="success-message-card" style={{ marginBottom: '20px' }}>
-            <span style={{ marginRight: '8px' }}>✅</span>
+            <span style={{ marginRight: '8px' }}></span>
             {success}
           </div>
         )}
@@ -361,7 +361,7 @@ const AdminOfficeManagement = () => {
 
                 {formError && (
                   <div className="error-message-card" style={{ marginBottom: '20px' }}>
-                    <span className="error-icon">⚠️</span>
+                    <span className="error-icon"></span>
                     {formError}
                   </div>
                 )}

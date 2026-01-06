@@ -258,14 +258,14 @@ const Tickets = () => {
 
         {error && (
           <div className="error-message-card">
-            <span className="error-icon">⚠️</span>
+            <span className="error-icon"></span>
             {error}
           </div>
         )}
 
         {!loading && tickets.length === 0 && (
           <div className="empty-state">
-            <div className="empty-icon">🎫</div>
+            <div className="empty-icon"></div>
             <h2>No tickets found</h2>
             <p>
               {filters.status || filters.category || filters.priority

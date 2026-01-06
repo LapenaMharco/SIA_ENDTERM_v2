@@ -63,12 +63,12 @@ The client will run on `http://localhost:3000`
 
 ## Features
 
-- ✅ User Registration with validation
-- ✅ User Login (email or username)
-- ✅ User Logout
-- ✅ Protected routes
-- ✅ Beautiful UI with Royal Blue (#4169E1) and Royal Yellow (#F5A623) theme
-- ✅ Responsive design
+- User Registration with validation
+- User Login (email or username)
+- User Logout
+- Protected routes
+- Beautiful UI with Royal Blue (#4169E1) and Royal Yellow (#F5A623) theme
+- Responsive design
 
 ## Troubleshooting
 

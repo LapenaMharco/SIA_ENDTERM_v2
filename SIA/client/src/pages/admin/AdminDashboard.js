@@ -76,30 +76,25 @@ const AdminDashboard = () => {
         {statistics && (
           <div className="statistics-grid admin-stats">
             <div className="stat-card admin-stat-card">
-              <div className="stat-icon">📊</div>
-              <div className="stat-value">{statistics.total}</div>
               <div className="stat-label">Total Tickets</div>
+              <div className="stat-value">{statistics.total}</div>
             </div>
             <div className="stat-card admin-stat-card pending">
-              <div className="stat-icon">⏳</div>
-              <div className="stat-value">{statistics.pending}</div>
               <div className="stat-label">Pending</div>
+              <div className="stat-value">{statistics.pending}</div>
             </div>
             <div className="stat-card admin-stat-card in-review">
-              <div className="stat-icon">👀</div>
-              <div className="stat-value">{statistics.inReview}</div>
               <div className="stat-label">In Review</div>
+              <div className="stat-value">{statistics.inReview}</div>
             </div>
             <div className="stat-card admin-stat-card completed">
-              <div className="stat-icon">✅</div>
-              <div className="stat-value">{statistics.completed}</div>
               <div className="stat-label">Completed</div>
+              <div className="stat-value">{statistics.completed}</div>
             </div>
             {statistics.onHold > 0 && (
               <div className="stat-card admin-stat-card on-hold">
-                <div className="stat-icon">⏸️</div>
-                <div className="stat-value">{statistics.onHold}</div>
                 <div className="stat-label">On Hold</div>
+                <div className="stat-value">{statistics.onHold}</div>
               </div>
             )}
           </div>
@@ -113,7 +108,7 @@ const AdminDashboard = () => {
               className="widget-action-link"
               onClick={() => navigate('/admin/tickets/all')}
             >
-              View All →
+              View All
             </button>
           </div>
           <div className="widget-content">
@@ -153,7 +148,6 @@ const AdminDashboard = () => {
               className="quick-action-card"
               onClick={() => navigate('/admin/tickets/all?status=Pending')}
             >
-              <div className="quick-action-icon">⏳</div>
               <div className="quick-action-label">Review Pending</div>
               {statistics?.pending > 0 && (
                 <div className="quick-action-badge">{statistics.pending}</div>
@@ -163,7 +157,6 @@ const AdminDashboard = () => {
               className="quick-action-card"
               onClick={() => navigate('/admin/tickets/all?status=In Review')}
             >
-              <div className="quick-action-icon">👀</div>
               <div className="quick-action-label">In Review</div>
               {statistics?.inReview > 0 && (
                 <div className="quick-action-badge">{statistics.inReview}</div>
@@ -173,7 +166,6 @@ const AdminDashboard = () => {
               className="quick-action-card"
               onClick={() => navigate('/admin/tickets/all')}
             >
-              <div className="quick-action-icon">📋</div>
               <div className="quick-action-label">All Tickets</div>
             </button>
           </div>

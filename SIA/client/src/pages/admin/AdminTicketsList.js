@@ -224,14 +224,14 @@ const AdminTicketsList = () => {
 
         {error && (
           <div className="error-message-card">
-            <div className="error-icon">⚠️</div>
+            <div className="error-icon"></div>
             <div>{error}</div>
           </div>
         )}
 
         {!loading && tickets.length === 0 && !error && (
           <div className="empty-state">
-            <div className="empty-icon">📋</div>
+            <div className="empty-icon"></div>
             <h2>No Tickets Found</h2>
             <p>There are no tickets matching your filters.</p>
           </div>

@@ -36,12 +36,27 @@
 .summary-card {
   background: var(--white);
   border-radius: 12px;
-  padding: 24px;
+  padding: 28px 24px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   display: flex;
   align-items: center;
-  gap: 16px;
+  justify-content: center;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-align: center;
+  min-height: 140px;
+  border-top: 4px solid var(--royal-blue);
+}
+
+.summary-card.pending {
+  border-top-color: #FFC107;
+}
+
+.summary-card.completed {
+  border-top-color: #27AE60;
+}
+
+.summary-card.in-review {
+  border-top-color: #17A2B8;
 }
 
 .summary-card:hover {
@@ -49,43 +64,45 @@
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 }
 
-.summary-icon {
-  font-size: 40px;
-  width: 60px;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--gray-light);
-  border-radius: 12px;
-}
-
-.summary-card.pending .summary-icon {
-  background: rgba(243, 156, 18, 0.1);
-}
-
-.summary-card.completed .summary-icon {
-  background: rgba(39, 174, 96, 0.1);
-}
-
-.summary-card.in-review .summary-icon {
-  background: rgba(52, 152, 219, 0.1);
-}
-
 .summary-info {
-  flex: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.summary-label {
+  font-size: 16px;
+  color: var(--gray-dark);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  line-height: 1.2;
+}
+
+.summary-card.pending .summary-label {
+  color: #856404;
+}
+
+.summary-card.completed .summary-label {
+  color: #155724;
+}
+
+.summary-card.in-review .summary-label {
+  color: #0C5460;
 }
 
 .summary-value {
-  font-size: 32px;
-  font-weight: 700;
+  font-size: 42px;
+  font-weight: 800;
   color: var(--royal-blue);
   line-height: 1;
-  margin-bottom: 4px;
+  margin: 0;
 }
 
 .summary-card.pending .summary-value {
-  color: #F39C12;
+  color: #FFC107;
 }
 
 .summary-card.completed .summary-value {
@@ -93,13 +110,7 @@
 }
 
 .summary-card.in-review .summary-value {
-  color: #3498DB;
-}
-
-.summary-label {
-  font-size: 14px;
-  color: var(--gray-dark);
-  font-weight: 500;
+  color: #17A2B8;
 }
 
 /* Charts Grid */
