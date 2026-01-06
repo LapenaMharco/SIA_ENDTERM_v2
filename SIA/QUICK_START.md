@@ -22,6 +22,8 @@ MONGODB_URI=mongodb://localhost:27017/ai-chatbot-ticketing
 JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
 JWT_EXPIRE=7d
 NODE_ENV=development
+ADMIN_SECRET=ADMIN_SECRET_KEY_2024
+OPENAI_API_KEY=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
 ```
 
 Start the backend server:
