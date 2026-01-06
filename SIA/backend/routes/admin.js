@@ -3,8 +3,10 @@ const router = express.Router();
 const { body, query, validationResult } = require('express-validator');
 const Ticket = require('../models/Ticket');
 const TicketComment = require('../models/TicketComment');
+const ActivityLog = require('../models/ActivityLog');
 const { authenticate } = require('../middleware/auth');
 const { requireAdmin } = require('../middleware/admin');
+const { logActivity } = require('../utils/activityLogger');
 const fs = require('fs');
 const path = require('path');
 
@@ -233,6 +235,20 @@ router.put(
       });
       await statusComment.save();
 
+      // Log activity
+      await logActivity({
+        adminId: req.user.id,
+        action: 'TICKET_STATUS_UPDATE',
+        description: `Updated ticket status from "${oldStatus}" to "${status}"`,
+        ticketId: ticket._id,
+        ticketNumber: ticket.ticketNumber,
+        details: {
+          oldStatus,
+          newStatus: status,
+          remarks: remarks || null,
+        },
+      });
+
       // Populate the updated ticket
       await ticket.populate('createdBy', 'username email firstName lastName');
       await ticket.populate('assignedTo', 'username email firstName lastName');
@@ -304,6 +320,19 @@ router.post(
 
       await comment.save();
       await comment.populate('author', 'username email firstName lastName');
+
+      // Log activity
+      await logActivity({
+        adminId: req.user.id,
+        action: 'TICKET_COMMENT_ADDED',
+        description: `Added ${isInternal ? 'internal' : 'public'} comment to ticket`,
+        ticketId: ticket._id,
+        ticketNumber: ticket.ticketNumber,
+        details: {
+          isInternal,
+          commentLength: content.trim().length,
+        },
+      });
 
       res.json({
         success: true,
@@ -497,6 +526,100 @@ router.get('/statistics', async (req, res) => {
 });
 
 /**
+ * @route   GET /api/admin/activity-logs
+ * @desc    Get admin activity logs
+ * @access  Private (Admin only)
+ */
+router.get(
+  '/activity-logs',
+  [
+    query('page').optional().isInt({ min: 1 }).withMessage('Page must be a positive integer'),
+    query('limit').optional().isInt({ min: 1, max: 100 }).withMessage('Limit must be between 1 and 100'),
+    query('action').optional().trim(),
+    query('ticketId').optional().trim(),
+    query('startDate').optional().isISO8601().withMessage('Start date must be a valid ISO 8601 date'),
+    query('endDate').optional().isISO8601().withMessage('End date must be a valid ISO 8601 date'),
+  ],
+  async (req, res) => {
+    try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({
+          success: false,
+          message: 'Validation failed',
+          errors: errors.array(),
+        });
+      }
+
+      const {
+        page = 1,
+        limit = 50,
+        action,
+        ticketId,
+        startDate,
+        endDate,
+      } = req.query;
+
+      // Build query
+      const query = {};
+
+      if (action) {
+        query.action = action;
+      }
+
+      if (ticketId) {
+        query.ticketId = ticketId;
+      }
+
+      if (startDate || endDate) {
+        query.createdAt = {};
+        if (startDate) {
+          query.createdAt.$gte = new Date(startDate);
+        }
+        if (endDate) {
+          query.createdAt.$lte = new Date(endDate);
+        }
+      }
+
+      // Calculate pagination
+      const skip = (parseInt(page) - 1) * parseInt(limit);
+      const sort = { createdAt: -1 };
+
+      // Get activity logs
+      const activityLogs = await ActivityLog.find(query)
+        .populate('admin', 'username email firstName lastName')
+        .populate('ticketId', 'ticketNumber title')
+        .sort(sort)
+        .skip(skip)
+        .limit(parseInt(limit));
+
+      // Get total count for pagination
+      const total = await ActivityLog.countDocuments(query);
+
+      res.json({
+        success: true,
+        data: {
+          activityLogs,
+          pagination: {
+            page: parseInt(page),
+            limit: parseInt(limit),
+            total,
+            pages: Math.ceil(total / parseInt(limit)),
+          },
+        },
+      });
+    } catch (error) {
+      console.error('Get activity logs error:', error);
+      res.status(500).json({
+        success: false,
+        message: error.message || 'Error fetching activity logs',
+        error: process.env.NODE_ENV === 'development' ? error.message : undefined,
+      });
+    }
+  }
+);
+
+/**
  * Utility function to read categories from file
  */
 const getCategories = () => {
@@ -628,6 +751,16 @@ router.post(
       categories.push(newCategory);
       saveCategories(categories);
 
+      // Log activity
+      await logActivity({
+        adminId: req.user.id,
+        action: 'CATEGORY_CREATED',
+        description: `Created category "${newCategory}"`,
+        details: {
+          categoryName: newCategory,
+        },
+      });
+
       res.json({
         success: true,
         message: 'Category added successfully',
@@ -706,6 +839,17 @@ router.put(
         console.error('Error updating tickets with new category:', updateError);
       }
 
+      // Log activity
+      await logActivity({
+        adminId: req.user.id,
+        action: 'CATEGORY_UPDATED',
+        description: `Updated category from "${oldName}" to "${newName}"`,
+        details: {
+          oldName,
+          newName,
+        },
+      });
+
       res.json({
         success: true,
         message: 'Category updated successfully',
@@ -760,6 +904,16 @@ router.delete('/categories/:name', async (req, res) => {
     // Remove category from array
     categories.splice(categoryIndex, 1);
     saveCategories(categories);
+
+    // Log activity
+    await logActivity({
+      adminId: req.user.id,
+      action: 'CATEGORY_DELETED',
+      description: `Deleted category "${categoryName}"`,
+      details: {
+        categoryName,
+      },
+    });
 
     res.json({
       success: true,
@@ -841,6 +995,16 @@ router.post(
       courses.push(newCourse);
       saveCourses(courses);
 
+      // Log activity
+      await logActivity({
+        adminId: req.user.id,
+        action: 'COURSE_CREATED',
+        description: `Created course "${newCourse}"`,
+        details: {
+          courseName: newCourse,
+        },
+      });
+
       res.json({
         success: true,
         message: 'Course added successfully',
@@ -919,6 +1083,17 @@ router.put(
         console.error('Error updating tickets with new course:', updateError);
       }
 
+      // Log activity
+      await logActivity({
+        adminId: req.user.id,
+        action: 'COURSE_UPDATED',
+        description: `Updated course from "${oldName}" to "${newName}"`,
+        details: {
+          oldName,
+          newName,
+        },
+      });
+
       res.json({
         success: true,
         message: 'Course updated successfully',
@@ -973,6 +1148,16 @@ router.delete('/courses/:name', async (req, res) => {
     // Remove course from array
     courses.splice(courseIndex, 1);
     saveCourses(courses);
+
+    // Log activity
+    await logActivity({
+      adminId: req.user.id,
+      action: 'COURSE_DELETED',
+      description: `Deleted course "${courseName}"`,
+      details: {
+        courseName,
+      },
+    });
 
     res.json({
       success: true,
@@ -1124,6 +1309,17 @@ router.post(
       offices.push(newOffice);
       saveOffices(offices);
 
+      // Log activity
+      await logActivity({
+        adminId: req.user.id,
+        action: 'OFFICE_CREATED',
+        description: `Created office "${newOffice.office_name}"`,
+        details: {
+          officeId: newOffice.id,
+          officeName: newOffice.office_name,
+        },
+      });
+
       res.json({
         success: true,
         message: 'Office added successfully',
@@ -1209,6 +1405,17 @@ router.put(
       offices[officeIndex] = updatedOffice;
       saveOffices(offices);
 
+      // Log activity
+      await logActivity({
+        adminId: req.user.id,
+        action: 'OFFICE_UPDATED',
+        description: `Updated office "${updatedOffice.office_name}"`,
+        details: {
+          officeId: updatedOffice.id,
+          officeName: updatedOffice.office_name,
+        },
+      });
+
       res.json({
         success: true,
         message: 'Office updated successfully',
@@ -1249,6 +1456,17 @@ router.delete('/offices/:id', async (req, res) => {
     const deletedOffice = offices[officeIndex];
     offices.splice(officeIndex, 1);
     saveOffices(offices);
+
+    // Log activity
+    await logActivity({
+      adminId: req.user.id,
+      action: 'OFFICE_DELETED',
+      description: `Deleted office "${deletedOffice.office_name}"`,
+      details: {
+        officeId: deletedOffice.id,
+        officeName: deletedOffice.office_name,
+      },
+    });
 
     res.json({
       success: true,
@@ -1389,6 +1607,16 @@ router.put(
       }
 
       saveCategoryOfficeMapping(mapping);
+
+      // Log activity
+      await logActivity({
+        adminId: req.user.id,
+        action: 'CATEGORY_OFFICE_MAPPING_UPDATED',
+        description: `Updated category-office mapping (${mapping.length} mappings)`,
+        details: {
+          mappingCount: mapping.length,
+        },
+      });
 
       res.json({
         success: true,
@@ -1564,6 +1792,17 @@ router.put(
 
       await Promise.all(updatePromises);
 
+      // Log activity
+      await logActivity({
+        adminId: req.user.id,
+        action: 'QUEUE_REORDERED',
+        description: `Reordered queue for office "${officeId}" (${ticketOrders.length} tickets)`,
+        details: {
+          officeId,
+          ticketCount: ticketOrders.length,
+        },
+      });
+
       // Fetch updated queue
       const tickets = await Ticket.find({
         'assignedOffice.officeId': officeId,
@@ -1614,6 +1853,18 @@ router.put('/queue/:ticketId/remove', async (req, res) => {
     ticket.queueNumber = null;
     ticket.queuedAt = null;
     await ticket.save();
+
+    // Log activity
+    await logActivity({
+      adminId: req.user.id,
+      action: 'QUEUE_REMOVED',
+      description: `Removed ticket from queue`,
+      ticketId: ticket._id,
+      ticketNumber: ticket.ticketNumber,
+      details: {
+        officeId: ticket.assignedOffice?.officeId || null,
+      },
+    });
 
     res.json({
       success: true,
@@ -1706,6 +1957,18 @@ router.put(
         isSystemNote: true,
       });
       await systemComment.save();
+
+      // Log activity
+      await logActivity({
+        adminId: req.user.id,
+        action: status === 'Approved' ? 'TICKET_RECEIPT_APPROVED' : 'TICKET_RECEIPT_REJECTED',
+        description: `${status} receipt for ticket`,
+        ticketId: ticket._id,
+        ticketNumber: ticket.ticketNumber,
+        details: {
+          comment: comment || null,
+        },
+      });
 
       // Populate the updated ticket
       await ticket.populate('createdBy', 'username email firstName lastName');

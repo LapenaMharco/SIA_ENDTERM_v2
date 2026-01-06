@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import Header from '../../components/Header';
 import { adminController } from '../../controllers/adminController';
@@ -22,6 +23,7 @@ import '../../styles/AdminAnalytics.css';
 
 const AdminAnalytics = () => {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [statistics, setStatistics] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -163,8 +165,18 @@ const AdminAnalytics = () => {
 
       <div className="admin-analytics-content">
         <div className="analytics-header">
-          <h1>Ticket Analytics & Reports</h1>
-          <p>Comprehensive overview of ticket statistics and trends</p>
+          <div className="analytics-header-content">
+            <div>
+              <h1>Ticket Analytics & Reports</h1>
+              <p>Comprehensive overview of ticket statistics and trends</p>
+            </div>
+            <button
+              className="view-activity-logs-btn"
+              onClick={() => navigate('/admin/activity-logs')}
+            >
+              View Activity Logs
+            </button>
+          </div>
         </div>
 
         {/* Summary Cards */}

@@ -18,6 +18,7 @@ import AdminCourseManagement from './pages/admin/AdminCourseManagement';
 import AdminOfficeManagement from './pages/admin/AdminOfficeManagement';
 import AdminQueueManagement from './pages/admin/AdminQueueManagement';
 import AdminCategoryOfficeMapping from './pages/admin/AdminCategoryOfficeMapping';
+import AdminActivityLogs from './pages/admin/AdminActivityLogs';
 import AdminRoute from './components/AdminRoute';
 import './styles/App.css';
 
@@ -122,6 +123,14 @@ function App() {
               element={
                 <AdminRoute>
                   <AdminAnalytics />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/activity-logs"
+              element={
+                <AdminRoute>
+                  <AdminActivityLogs />
                 </AdminRoute>
               }
             />

@@ -243,5 +243,21 @@ export const adminController = {
     });
     return response.data;
   },
+
+  // Get activity logs
+  getActivityLogs: async (filters = {}) => {
+    const params = new URLSearchParams();
+    if (filters.page) params.append('page', filters.page);
+    if (filters.limit) params.append('limit', filters.limit);
+    if (filters.action) params.append('action', filters.action);
+    if (filters.ticketId) params.append('ticketId', filters.ticketId);
+    if (filters.startDate) params.append('startDate', filters.startDate);
+    if (filters.endDate) params.append('endDate', filters.endDate);
+
+    const response = await api.get(`/admin/activity-logs?${params.toString()}`, {
+      headers: getAuthHeaders(),
+    });
+    return response.data;
+  },
 };
 
