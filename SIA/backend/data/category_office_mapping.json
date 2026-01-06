@@ -1,0 +1,52 @@
+[
+  {
+    "category": "OTR Request",
+    "officeId": "registrar",
+    "officeName": "Registrar's Office"
+  },
+  {
+    "category": "Subject Enrollment",
+    "officeId": "registrar",
+    "officeName": "Registrar's Office"
+  },
+  {
+    "category": "Grade Inquiry",
+    "officeId": "registrar",
+    "officeName": "Registrar's Office"
+  },
+  {
+    "category": "Document Request",
+    "officeId": "registrar",
+    "officeName": "Registrar's Office"
+  },
+  {
+    "category": "Enrollment",
+    "officeId": "registrar",
+    "officeName": "Registrar's Office"
+  },
+  {
+    "category": "Scholarship",
+    "officeId": "scholarship",
+    "officeName": "Scholarship Office"
+  },
+  {
+    "category": "Financial Aid",
+    "officeId": "scholarship",
+    "officeName": "Scholarship Office"
+  },
+  {
+    "category": "Tuition Payment",
+    "officeId": "cashier",
+    "officeName": "Cashier's Office"
+  },
+  {
+    "category": "Library",
+    "officeId": "library",
+    "officeName": "Library"
+  },
+  {
+    "category": "Technical Support",
+    "officeId": "it-computer",
+    "officeName": "IT/Computer Studies Department"
+  }
+]
